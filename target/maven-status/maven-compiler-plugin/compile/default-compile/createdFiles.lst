@@ -1,0 +1,4 @@
+factory\ConnectionTest.class
+model\Client.class
+dao\ClientDao.class
+factory\ConnectionFactory.class
