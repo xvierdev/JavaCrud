@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.Client;
 
 /**
@@ -20,6 +22,10 @@ public class ClientDao {
     private final Connection connection;
 
     public ClientDao() {
+        this.connection = new ConnectionFactory().getConnection();
+    }
+
+    public ClientDao(String host, String user, String password) {
         this.connection = new ConnectionFactory().getConnection();
     }
 
@@ -84,6 +90,81 @@ public class ClientDao {
         }
 
         return client;
+    }
+
+    public Client getFirstClient() {
+        String sql = "SELECT cpf, nome, email, telefone, endereco, data_nascimento FROM clientes LIMIT 1";
+        Client client = null;
+
+        if (connection != null) {
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    client = mapResultSetToClient(rs);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Erro ao buscar o primeiro cliente.", e);
+            }
+        }
+
+        return client;
+    }
+
+    public Client getNextClient(String currentCpf) {
+        String sql = "SELECT cpf, nome, email, telefone, endereco, data_nascimento FROM clientes WHERE cpf > ? ORDER BY cpf ASC LIMIT 1";
+        Client client = null;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, currentCpf);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                client = mapResultSetToClient(rs);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar o próximo cliente.", e);
+        }
+
+        return client;
+    }
+
+    public Client getPreviousClient(String currentCpf) {
+        String sql = "SELECT cpf, nome, email, telefone, endereco, data_nascimento FROM clientes WHERE cpf < ? ORDER BY cpf DESC LIMIT 1";
+        Client client = null;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, currentCpf);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                client = mapResultSetToClient(rs);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar o cliente anterior.", e);
+        }
+
+        return client;
+    }
+
+    public List<Client> getAllClients() {
+        String sql = "SELECT cpf, nome, email, telefone, endereco, data_nascimento FROM clientes";
+        List<Client> clients = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                clients.add(mapResultSetToClient(rs));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar todos os clientes.", e);
+        }
+
+        return clients;
     }
 
     private Client mapResultSetToClient(ResultSet rs) throws SQLException {
