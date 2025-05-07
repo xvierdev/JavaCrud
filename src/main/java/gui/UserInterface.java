@@ -5,7 +5,6 @@
 package gui;
 
 import dao.ClientDao;
-import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -549,10 +548,8 @@ public class UserInterface extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserInterface().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new UserInterface().setVisible(true);
         });
     }
 
