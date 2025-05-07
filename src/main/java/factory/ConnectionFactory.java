@@ -16,7 +16,8 @@ public class ConnectionFactory {
 
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost/cadastro", "root", "fatec");
+           return DriverManager.getConnection("jdbc:mysql://localhost/cadastro", "root", "fatec");
+        // return DriverManager.getConnection("jdbc:mysql://192.168.15.13/cadastro", "user", "fatec123");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

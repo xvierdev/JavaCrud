@@ -1,11 +1,12 @@
-create database if not exists vendas;
+create database if not exists cadastro;
 use vendas;
 create table if not exists clientes
 (
-	cli_cpf varchar(11) primary key,
-	cli_nome varchar(30) not null,
-    cli_email varchar(50) not null,
-    cli_phone varchar(15) not null,
-    cli_address varchar(255) not null,
-    cli_birthdata date not null
+	id int PRIMARY KEY AUTO_INCREMENT,
+    cpf varchar(11) UNIQUE,
+	nome varchar(30) not null,
+    email varchar(50) not null,
+    telefone varchar(15) not null,
+    endereco varchar(255) not null,
+    data_nascimento date not null
 );

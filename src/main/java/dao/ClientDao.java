@@ -105,7 +105,7 @@ public class ClientDao {
                 }
 
             } catch (SQLException e) {
-                throw new RuntimeException("Erro ao buscar o primeiro cliente.", e);
+//                throw new RuntimeException("Erro ao buscar o primeiro cliente.", e);
             }
         }
 

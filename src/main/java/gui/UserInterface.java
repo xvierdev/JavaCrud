@@ -415,6 +415,7 @@ public class UserInterface extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Cliente inserido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             disableButtons(false);
             currentClient = newClient;
+            completeFields(newClient);
         }
     }//GEN-LAST:event_btnCommitActionPerformed
 

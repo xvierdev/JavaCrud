@@ -18,7 +18,8 @@ public class CreateTable {
                 statement.executeUpdate(useDatabaseSQL);
 
                 String createTableSQL = "CREATE TABLE IF NOT EXISTS clientes ("
-                        + "cpf VARCHAR(15) PRIMARY KEY, "
+                        + "id int PRIMARY KEY AUTO_INCREMENT, "
+                        + "cpf VARCHAR(15) UNIQUE, "
                         + "nome VARCHAR(30) NOT NULL, "
                         + "email VARCHAR(50) NOT NULL, "
                         + "telefone VARCHAR(15) NOT NULL, "
