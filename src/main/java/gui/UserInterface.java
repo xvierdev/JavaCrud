@@ -10,6 +10,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import model.Client;
 
@@ -453,16 +455,29 @@ public class UserInterface extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "O campo Email não pode ser vazio.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
             return null;
         }
+
+        // Padrão de expressão regular para validar um e-mail
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        if (!matcher.matches()){
+            JOptionPane.showMessageDialog(null, "Emai inválido.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        
+
         if (address.isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo Endereço não pode ser vazio.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
             return null;
         }
+
         if (birthdateText.isEmpty()) {
             JOptionPane.showMessageDialog(null, "O campo Data de Nascimento não pode ser vazio.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
             return null;
         }
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
         try {
             birthdate = format.parse(birthdateText);
         } catch (ParseException e) {
@@ -521,20 +536,16 @@ public class UserInterface extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
